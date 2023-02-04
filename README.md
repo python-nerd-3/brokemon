@@ -1,2 +1,6 @@
 # brokemon
-Pokemon on an extreme budget (pls dont sue me nintendo)
+Pokemon on an extreme budget.
+
+I made this bc my fren told me to when I had zero ideas for projects to make
+
+PS enemy has a slight attack boost to make it harder
