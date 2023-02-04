@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" defer></script> 
+    <script src="index.js" defer></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Brokemon</h1>
+    <h2>Your HP: <span id="player-hp">100</span></h2>
+    <h2>Enemy HP: <span id="enemy-hp">140</span></h2>
+    <div id="info">
+        <span id="top-bar">| Loading...</span>
+        <br>
+        <span id="bottom-bar">|</span>
+    </div>
+    <div id="actions">
+        <button id="button-1" onclick="bonk.useMove('player')" disabled="true">Bonk</button>
+        <button id="button-2" onclick="stronkify.useMove('player')" disabled="true">Stronkify</button>
+        <button id="button-3" onclick="belittle.useMove('player')" disabled="true">Belittle haha vocab word</button>
+        <button id="button-4" onclick="tickle.useMove('player')" disabled="true">Tickle</button>
+    </div>
+</body>

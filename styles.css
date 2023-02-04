@@ -1,0 +1,55 @@
+body {
+    background-color: rgb(10, 10, 25);
+    color: white;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 1vw;
+}
+
+#info, #actions {
+    border: solid 1.5vw;
+    border-color: white;
+    border-radius: 0.75vw;
+}
+
+#info {
+    border-bottom-width: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+#actions {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+button {
+    border: 0;
+    width: 47.5vw;
+    height: 50px;
+}
+
+#button-1 {
+    background-color: rgb(255, 120, 100); 
+}
+
+#button-2 {
+    background-color: rgb(100, 120, 255);
+    float: right;
+}
+
+#button-3 {
+    background-color: rgb(255, 255, 120); 
+}
+
+#button-4 {
+    background-color: rgb(100, 255, 120);
+    float: right;
+}
+
+button:disabled {
+    background-color: rgb(120, 120, 120)
+}
+
+.dead {
+    color: rgb(255, 120, 100);
+}
