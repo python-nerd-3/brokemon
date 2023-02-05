@@ -4,6 +4,24 @@ let playerExtraDmg = 1;
 let enemyExtraDmg = 1.1;
 let moveNames = []
 
+let params = window.location.search;
+params = new URLSearchParams(params);
+let newHp = params.get("hp");
+let newDmg = params.get("boost");
+newHp = Number(newHp)
+newDmg = Number(newDmg)
+if (newHp) {
+    enemyHp = newHp;
+    $("#enemy-hp").html(newHp);
+} if (newDmg) {
+    enemyExtraDmg = newDmg;
+};
+
+$('#button-1').prop("disabled", true);
+$('#button-2').prop("disabled", true);
+$('#button-3').prop("disabled", true);
+$('#button-4').prop("disabled", true);
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -13,7 +31,6 @@ function toggleButtons() {
     $('#button-2').prop('disabled', (i, v) => !v);
     $('#button-3').prop('disabled', (i, v) => !v);
     $('#button-4').prop('disabled', (i, v) => !v);
-
 }
 
 function roundAndUpdate() {
@@ -67,7 +84,7 @@ function handleWin() {
     if (playerHp >= enemyHp) {
         display("You win!", "Good job!")
     } else {
-        display("You lose.", "You had to have done that deliberately.")
+        display("You lost.", "sad")
     }
 }
 

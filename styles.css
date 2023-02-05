@@ -22,34 +22,44 @@ body {
     border-top-right-radius: 0px;
 }
 
-button {
+button:not(.difficulty) {
     border: 0;
     width: 47.5vw;
     height: 50px;
 }
 
-#button-1 {
-    background-color: rgb(255, 120, 100); 
-}
+#button-1 {background-color: rgb(255, 120, 100); }
 
 #button-2 {
     background-color: rgb(100, 120, 255);
     float: right;
 }
 
-#button-3 {
-    background-color: rgb(255, 255, 120); 
-}
+#button-3 {background-color: rgb(255, 255, 120); }
 
 #button-4 {
     background-color: rgb(100, 255, 120);
     float: right;
 }
 
-button:disabled {
-    background-color: rgb(120, 120, 120)
+#wawa {
+    width: 10vw;
+    height: 10vw;
 }
 
-.dead {
-    color: rgb(255, 120, 100);
+button:disabled {
+    background-color: rgb(120, 120, 120) !important;
+    color: white;
 }
+
+.difficulty {
+    border: 0;
+    width: 10vw;
+    height: 10vw;
+}
+
+.dead {color: rgb(255, 120, 100);}
+#warning {color: darkred;}
+#d-easy {background-color: rgb(100, 255, 120)}
+#d-normal {background-color:rgb(255, 255, 120)}
+#d-hard {background-color:rgb(255, 120, 100)}
