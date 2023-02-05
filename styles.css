@@ -28,7 +28,10 @@ button:not(.difficulty) {
     height: 50px;
 }
 
-button {padding: 0;}
+button {
+    padding: 0;
+    color: black;
+}
 
 #button-1 {background-color: rgb(255, 120, 100); }
 

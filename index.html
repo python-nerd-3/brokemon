@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" defer></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> 
     <script src="index.js" defer></script>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -16,9 +16,10 @@
     <div id="actions">
         <button id="button-1" onclick="bonk.useMove('player')" disabled="true">Bonk</button>
         <button id="button-2" onclick="stronkify.useMove('player')" disabled="true">Stronkify</button>
-        <button id="button-3" onclick="belittle.useMove('player')" disabled="true">Belittle</button>
+        <button id="button-3" onclick="belittle.useMove('player')" disabled="true">Belittle haha vocab word</button>
         <button id="button-4" onclick="tickle.useMove('player')" disabled="true">Tickle</button>
     </div>
+    <button class="debug" onclick="bonk.useMove('enemy')">bonk.useMove('enemy')</button>
     <br>
     <div id="difficulties">
         <a href="index.html?hp=120&boost=1">
@@ -27,13 +28,13 @@
             </button>
         </a>
         <br>
-        <a href="index.html?hp=140&boost=1.1">
+        <a href="index.html?hp=150&boost=1.1">
             <button class="difficulty" id="d-normal">
                 Normal
             </button>
         </a>
         <br>
-        <a href="index.html?hp=160&boost=1.2">
+        <a href="index.html?hp=170&boost=1.25">
             <button class="difficulty" id="d-hard">
                 Hard
             </button>

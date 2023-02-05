@@ -1,8 +1,16 @@
+$(".debug").hide();
 let playerHp = 100;
 let enemyHp = 140;
 let playerExtraDmg = 1;
 let enemyExtraDmg = 1.1;
 let moveNames = []
+let isntFirefox = typeof InstallTrigger === 'undefined';
+if (isntFirefox) {
+    alert("Please use Firefox or else the buttons commit die.")
+} else {
+    console.log("^^ that is because feature checking")
+};
+console.log("yo hi snooper if somethings red tell me ok? also run playerHp = -2")
 
 let params = window.location.search;
 params = new URLSearchParams(params);
@@ -22,8 +30,12 @@ $('#button-2').prop("disabled", true);
 $('#button-3').prop("disabled", true);
 $('#button-4').prop("disabled", true);
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+function debug(key) {
+    console.log('run')
+    if (key.code === "F7") {
+        console.log('yes');
+        $(".debug").show();
+    }
 }
 
 function toggleButtons() {
@@ -103,6 +115,9 @@ class Move {
         switch (user) {
             case "player":
                 let pDamageDealt = this.dmg * playerExtraDmg;
+                let randomDamageBoost = Math.random() / 5
+                randomDamageBoost += 0.9
+                pDamageDealt *= randomDamageBoost
                 enemyHp -= pDamageDealt;
                 if (this.target === "user") {
                     playerExtraDmg += this.effect;
@@ -122,6 +137,9 @@ class Move {
                 break;
             case "enemy":
                 let eDamageDealt = this.dmg * enemyExtraDmg;
+                let eRandomDamageBoost = Math.random() / 5
+                eRandomDamageBoost  += 0.9
+                eDamageDealt *= eRandomDamageBoost
                 playerHp -= eDamageDealt;
                 if (this.target === "user") {
                     enemyExtraDmg += this.effect;
@@ -150,4 +168,5 @@ let belittle = new Move("Belittle", 0, "enemy", -0.15);
 let tickle = new Move("Tickle", 10, "$D", 0);
 // Kalob was a special child
 
+document.addEventListener("keydown", debug)
 setTimeout(loop1, 1000)
