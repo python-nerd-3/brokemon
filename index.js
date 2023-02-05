@@ -5,9 +5,12 @@ let playerExtraDmg = 1;
 let enemyExtraDmg = 1.1;
 let moveNames = []
 let isntFirefox = typeof InstallTrigger === 'undefined';
-if (isntFirefox) {
-    alert("Please use Firefox or else the buttons commit die.")
-} else {
+let isntSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
+isntSafari = !isntSafari
+
+if (isntFirefox && isntSafari) {
+    alert("Please use Firefox/Safari or else the buttons commit die.")
+} else if (!isntFirefox) {
     console.log("^^ that is because feature checking")
 };
 console.log("yo hi snooper if somethings red tell me ok? also run playerHp = -2")
