@@ -22,8 +22,8 @@ body {
     border-top-right-radius: 0px;
 }
 
-button:not(.difficulty) {
-    border: 0;
+button.move {
+    border: 0.5vw solid;
     width: 47.5vw;
     height: 50px;
 }
@@ -33,17 +33,25 @@ button {
     color: black;
 }
 
-#button-1 {background-color: rgb(255, 120, 100); }
+#button-1 {
+    background-color: rgb(255, 120, 100); 
+    border-color: rgb(225, 90, 70);
+}
 
 #button-2 {
     background-color: rgb(100, 120, 255);
+    border-color: rgb(70, 90, 225);
     float: right;
 }
 
-#button-3 {background-color: rgb(255, 255, 120); }
+#button-3 {
+    background-color: rgb(255, 255, 120); 
+    border-color: rgb(225, 225, 90)
+}
 
 #button-4 {
     background-color: rgb(100, 255, 120);
+    border-color: rgb(70, 225, 90);
     float: right;
 }
 

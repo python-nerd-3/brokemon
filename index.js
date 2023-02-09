@@ -1,18 +1,23 @@
 $(".debug").hide();
 let playerHp = 100;
-let enemyHp = 140;
+let enemyHp = 160;
+let playerMaxHp = 100;
+let enemyMaxHp = 160;
 let playerExtraDmg = 1;
 let enemyExtraDmg = 1.1;
-let moveNames = []
-let isntFirefox = typeof InstallTrigger === 'undefined';
-let isntSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
-isntSafari = !isntSafari
+let moveNames = [];
+let selectableMoves = [];
+let movePool = [];
+let movesChosen = 1;
+let isFirefox = navigator.userAgent.match(/firefox|fxios/i)
+let isSafari = navigator.userAgent.match(/safari/i);
 
-if (isntFirefox && isntSafari) {
-    alert("Please use Firefox/Safari or else the buttons commit die.")
-} else if (!isntFirefox) {
-    console.log("^^ that is because feature checking")
-};
+if (isFirefox || isSafari) {
+    console.log("goob job")
+} else {
+    alert("Please use Firefox or Safari or else the buttons do the funny.")
+}
+    
 console.log("yo hi snooper if somethings red tell me ok? also run playerHp = -2")
 
 let params = window.location.search;
@@ -23,6 +28,7 @@ newHp = Number(newHp)
 newDmg = Number(newDmg)
 if (newHp) {
     enemyHp = newHp;
+    enemyMaxHp = newHp;
     $("#enemy-hp").html(newHp);
 } if (newDmg) {
     enemyExtraDmg = newDmg;
@@ -33,10 +39,17 @@ $('#button-2').prop("disabled", true);
 $('#button-3').prop("disabled", true);
 $('#button-4').prop("disabled", true);
 
+function setupAi() {
+    for (i of Array(4).keys()) {
+        let sNum = Math.random() * selectableMoves.length;
+        let sSelected = selectableMoves.splice(Math.floor(sNum), 1)[0]
+        movePool.push(sSelected);
+    }
+}
+
 function debug(key) {
-    console.log('run')
     if (key.code === "F7") {
-        console.log('yes');
+        console.log('opened debug HAXOR :O');
         $(".debug").show();
     }
 }
@@ -67,8 +80,8 @@ function display(top, bottom) {
 }
 
 function moveAi() {
-    let num = Math.random() * moveNames.length;
-    let selected = moveNames[Math.floor(num)];
+    let num = Math.random() * movePool.length;
+    let selected = movePool[Math.floor(num)];
     eval(`${selected}.useMove("enemy")`)
 }
 
@@ -103,17 +116,43 @@ function handleWin() {
     }
 }
 
+function evalUse(name, user) {
+    eval(`${name}.useMove("${user}")`)
+}
+
 class Move {
-    constructor(name, dmg, target, effect) {
+    constructor(name, dmg, target, effect, heal, codeName) {
         this.name = name;
         this.dmg = dmg;
         if (target != "$D") {
             this.target = target;
             this.effect = effect;
         }
-        moveNames.push(name.toLowerCase())
+        this.heal = heal;
+        if (heal >= 0) {
+            this.healType = "heal";
+        } else {
+            this.healType = "recoil";
+        };
+        this.codeName = codeName;
+        moveNames.push(codeName);
+        selectableMoves = [...moveNames]
+        this.addFunction = `${codeName}.addToMoves()`
+        this.useFunction = `${codeName}.useMove("player")`
+        $("#moveSelector").append(`<button class="move" id="add-${codeName}" onclick="${this.addFunction}">${name}</button>`)
     }
     
+    addToMoves() {
+        $(`#button-${movesChosen}`).html(this.name);
+        $(`#button-${movesChosen}`).attr("onclick", `${this.useFunction}`)
+        movesChosen += 1;
+        $(`#add-${this.codeName}`).remove();
+        if (movesChosen === 5) {
+            $("#moveSelector").remove();
+            loop1();
+        }
+    }
+
     useMove(user) {
         switch (user) {
             case "player":
@@ -122,18 +161,24 @@ class Move {
                 randomDamageBoost += 0.9
                 pDamageDealt *= randomDamageBoost
                 enemyHp -= pDamageDealt;
+                playerHp += this.heal * playerExtraDmg;
+                playerHp = Math.min(playerHp, playerMaxHp);
                 if (this.target === "user") {
                     playerExtraDmg += this.effect;
                 } else if (this.target === "enemy") {
                     enemyExtraDmg += this.effect;
                 }
 
-                if (this.dmg != 0) {
+                if (this.dmg != 0 && this.heal >= 0) {
                     display(`You used ${this.name}!`, `It dealt ${Math.round(pDamageDealt)} damage.`)
                 } else if (this.target === "user") {
                     display(`You used ${this.name}!`, `Your attack increased by ${this.effect * 100}%.`)
                 } else if (this.target === "enemy") {
                     display(`You used ${this.name}!`, `The opponent's attack decreased by ${this.effect * -100}%.`)
+                } else if (this.heal > 0) {
+                    display(`You used ${this.name}!`, `It brought your HP back up to ${Math.round(playerHp)}.`)
+                } else if (this.heal < 0) {
+                    display(`You use ${this.name}!`,  `It dealt ${Math.round(pDamageDealt)} damage with ${Math.round(this.heal * playerExtraDmg * -1)} recoil.`)
                 }
                 toggleButtons();
                 setTimeout(loop2, 1500)
@@ -144,18 +189,23 @@ class Move {
                 eRandomDamageBoost  += 0.9
                 eDamageDealt *= eRandomDamageBoost
                 playerHp -= eDamageDealt;
+                enemyHp += this.heal * enemyExtraDmg;
+                enemyHp = Math.min(enemyHp, enemyMaxHp);
                 if (this.target === "user") {
                     enemyExtraDmg += this.effect;
                 } else if (this.target === "enemy") {
                     playerExtraDmg += this.effect;
                 }
-
-                if (this.dmg != 0) {
+                if (this.dmg != 0 && this.heal >= 0) {
                     display(`The opponent used ${this.name}!`, `It dealt ${Math.round(eDamageDealt)} damage.`)
                 } else if (this.target === "user") {
                     display(`The opponent used ${this.name}!`, `The opponent's attack increased by ${this.effect * 100}%.`)
                 } else if (this.target === "enemy") {
                     display(`The opponent used used ${this.name}!`, `Your  attack decreased by ${this.effect * -100}%.`)
+                } else if (this.heal > 0) {
+                    display(`The opponent used ${this.name}!`, `It brought its HP back up to ${Math.round(enemyHp)}.`)
+                } else if (this.heal < 0) {
+                    display(`The opponent used ${this.name}!`,  `It dealt ${Math.round(eDamageDealt)} damage with ${Math.round(this.heal * enemyExtraDmg * -1)} recoil.`)
                 }
 
                 break;
@@ -165,11 +215,13 @@ class Move {
 
 }
 
-let bonk = new Move("Bonk", 40, "$D", 0);
-let stronkify = new Move("Stronkify", 0, "user", 0.2);
-let belittle = new Move("Belittle", 0, "enemy", -0.15);
-let tickle = new Move("Tickle", 10, "$D", 0);
-// Kalob was a special child
-
+// let name = new Move("name", dmg, effectTarget, effectPower, heal, "codename")
+let bonk = new Move("Bonk", 40, "$D", 0, 0, "bonk");
+let stronk = new Move("Stronkify", 0, "user", 0.2, 0, "stronk");
+let belittle = new Move("Belittle", 0, "enemy", -0.15, 0, "belittle");
+let tickle = new Move("Tickle", 10, "enemy", -0.1, 0, "tickle");
+let lick = new Move("Lick Wounds", 0, "$D", 0, 30, "lick");
+let hyperbonk = new Move("HYPERBONK", 50, "$D", 0, -30, "hyperbonk")
+// Kalob was a special child. He belittled people so they could not lick their wounds using a baseball bat to bonk them
 document.addEventListener("keydown", debug)
-setTimeout(loop1, 1000)
+setupAi()
