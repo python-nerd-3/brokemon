@@ -217,7 +217,7 @@ class Move {
 
 // let name = new Move("name", dmg, effectTarget, effectPower, heal, "codename")
 let bonk = new Move("Bonk", 40, "$D", 0, 0, "bonk");
-let stronk = new Move("Stronkify", 0, "user", 0.2, 0, "stronk");
+let stronk = new Move("Stronkify", 0, "user", 0.15, 0, "stronk");
 let belittle = new Move("Belittle", 0, "enemy", -0.15, 0, "belittle");
 let tickle = new Move("Tickle", 10, "enemy", -0.1, 0, "tickle");
 let lick = new Move("Lick Wounds", 0, "$D", 0, 30, "lick");
