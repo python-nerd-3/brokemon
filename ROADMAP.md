@@ -7,6 +7,7 @@ All versions before 0.1.1.1 were created before this document
 #### 0.1.1.1
 - random factor to move damage
 - debug
+- 
 1.2 was skipped due to 1.3's size
 #### 0.1.3
 - move selector
@@ -15,7 +16,8 @@ All versions before 0.1.1.1 were created before this document
 - lots more moves
 - internal display rework
 - color coded buttons
-I only consider this minor due to not much change to the actual code, 0.1.3.1 skipped for same reaosn
+
+I only consider this minor due to not much change to the actual code, 0.1.3.1 skipped for same reason
 #### 0.1.3.3
 - easier custom difficulties
 #### 0.1.4
