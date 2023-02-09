@@ -221,7 +221,7 @@ let stronk = new Move("Stronkify", 0, "user", 0.2, 0, "stronk");
 let belittle = new Move("Belittle", 0, "enemy", -0.15, 0, "belittle");
 let tickle = new Move("Tickle", 10, "enemy", -0.1, 0, "tickle");
 let lick = new Move("Lick Wounds", 0, "$D", 0, 30, "lick");
-let hyperbonk = new Move("HYPERBONK", 50, "$D", 0, -30, "hyperbonk")
+let hyperbonk = new Move("HYPERBONK", 50, "$D", 0, -40, "hyperbonk")
 // Kalob was a special child. He belittled people so they could not lick their wounds using a baseball bat to bonk them
 document.addEventListener("keydown", debug)
 setupAi()
