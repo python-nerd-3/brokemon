@@ -7,3 +7,4 @@ PS enemy has a slight attack boost to make it harder
 
 this took over 200 lines of code and has been my biggest project yet pls help me
 - update 1: 265
+- update 2: 350
