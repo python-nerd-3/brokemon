@@ -30,14 +30,23 @@ if (newHp) {
     enemyHp = newHp;
     enemyMaxHp = newHp;
     $("#enemy-hp").html(newHp);
-} if (newDmg) {
+} 
+if (newDmg) {
     enemyExtraDmg = newDmg;
+    $("#enemyBoost").html(`x${newDmg}`);
 };
 
 $('#button-1').prop("disabled", true);
 $('#button-2').prop("disabled", true);
 $('#button-3').prop("disabled", true);
 $('#button-4').prop("disabled", true);
+
+function setDifficulty() {
+    let diffBoost = $("#enemy-boost-input").val();
+    let diffHp = $("#enemy-hp-input").val();
+    console.log(diffBoost + diffHp)
+    window.location.replace(`index.html?hp=${diffHp}&boost=${diffBoost}`)
+}
 
 function setupAi() {
     for (i of Array(4).keys()) {
@@ -71,6 +80,19 @@ function roundAndUpdate() {
     }
     if (playerHp <= 0) {
         $("#player-hp").html("<span class='dead'>Dead</span>")
+    }
+    $("#playerBoost").html(`x${Math.round(playerExtraDmg * 100) / 100}`);
+    $("#enemyBoost").html(`x${Math.round(enemyExtraDmg * 100) / 100}`);
+    if (playerExtraDmg < 1) {
+        $("#playerBoost").switchClass("boost", "nerf", 1000, "easeInOutQuad");
+    } else if (playerExtraDmg >= 1) {
+        console.log("cool")
+        $("#playerBoost").switchClass("nerf", "boost", 1000, "easeInOutQuad");
+    }
+    if (enemyExtraDmg < 1) {
+        $("#enemyBoost").switchClass("boost", "nerf", 1000, "easeInOutQuad");
+    } else if (enemyExtraDmg >= 1) {
+        $("#enemyBoost").switchClass("nerf", "boost", 1000, "easeInOutQuad");
     }
 }
 
@@ -136,10 +158,19 @@ class Move {
         };
         this.codeName = codeName;
         moveNames.push(codeName);
-        selectableMoves = [...moveNames]
-        this.addFunction = `${codeName}.addToMoves()`
-        this.useFunction = `${codeName}.useMove("player")`
-        $("#moveSelector").append(`<button class="move" id="add-${codeName}" onclick="${this.addFunction}">${name}</button>`)
+        selectableMoves = [...moveNames];
+        this.addFunction = `${codeName}.addToMoves()`;
+        this.useFunction = `${codeName}.useMove("player")`;
+        $("#key").before(`<button class="move" id="add-${codeName}" onclick="${this.addFunction}">${name}</button>`);
+        if (dmg > 0 && target === "attack") {
+            $(`#add-${codeName}`).addClass("damageMove");
+        } else if (dmg > 0) {
+            $(`#add-${codeName}`).addClass("specialDmgMove");
+        } else if (target != "attack") {
+            $(`#add-${codeName}`).addClass("statusMove");
+        } else if (heal > 0) {
+            $(`#add-${codeName}`).addClass("healMove");
+        }
         this.specialMsg = specialMsg;
     }
     
@@ -167,8 +198,10 @@ class Move {
                 enemyHp = Math.min(enemyHp, enemyMaxHp)
                 if (this.target === "user") {
                     playerExtraDmg += this.effect;
+                    playerExtraDmg = Math.max(playerExtraDmg, 0.5);
                 } else if (this.target === "enemy") {
                     enemyExtraDmg += this.effect;
+                    enemyExtraDmg = Math.max(enemyExtraDmg, 0.5);
                 }
 
                 if (this.dmg > 0 && this.heal >= 0) {
@@ -211,8 +244,10 @@ class Move {
                 playerHp = Math.min(playerHp, playerMaxHp);
                 if (this.target === "user") {
                     enemyExtraDmg += this.effect;
+                    enemyExtraDmg = Math.max(enemyExtraDmg, 0.5);
                 } else if (this.target === "enemy") {
                     playerExtraDmg += this.effect;
+                    playerExtraDmg = Math.max(playerExtraDmg, 0.5);
                 }
                 if (this.dmg > 0 && this.heal >= 0) {
                     if (this.target != "attack" || this.heal > 0) {

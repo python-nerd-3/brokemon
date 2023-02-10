@@ -18,8 +18,6 @@ All versions before 0.1.1.1 were created before this document
 #### 0.1.3.2
 - color coded buttons
 - easier custom difficulties
-#### 0.1.3.3
-- easier custom difficulties
 #### 0.1.4
 - defense
 - something else

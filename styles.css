@@ -5,7 +5,7 @@ body {
     margin: 1vw;
 }
 
-#info, #actions {
+#info, #actions, #difficulty-builder {
     border: solid 1.5vw;
     border-color: white;
     border-radius: 0.75vw;
@@ -33,27 +33,27 @@ button {
     color: black;
 }
 
-#button-1 {
+#button-1, .damageMove {
     background-color: rgb(255, 120, 100); 
-    border-color: rgb(225, 90, 70);
+    border-color: rgb(225, 90, 70) !important;
 }
 
-#button-2 {
+#button-2, .statusMove {
     background-color: rgb(100, 120, 255);
-    border-color: rgb(70, 90, 225);
-    float: right;
+    border-color: rgb(70, 90, 225) !important;
 }
 
-#button-3 {
+#button-3, .specialDmgMove {
     background-color: rgb(255, 255, 120); 
-    border-color: rgb(225, 225, 90)
+    border-color: rgb(225, 225, 90) !important;
 }
 
-#button-4 {
+#button-4, .healMove {
     background-color: rgb(100, 255, 120);
-    border-color: rgb(70, 225, 90);
-    float: right;
+    border-color: rgb(70, 225, 90) !important;
 }
+
+
 
 #wawa {
     width: 10vw;
@@ -72,8 +72,27 @@ button:disabled {
     font-size: 2vw;
 }
 
-.dead {color: rgb(255, 120, 100);}
+textarea {
+    border-radius: 10px;
+    resize: none;
+}
+
+#difficulty-builder {
+    width: 264px;
+}
+
+#difficulty-finish-button {
+    border: 5px solid rgb(10, 10, 25);
+    height: 50px;
+    position: absolute;
+}
+
+.dead, .nerf, #key-red {color: rgb(255, 120, 100);}
+.boost, #key-green {color: rgb(100, 255, 120);}
 #warning {color: darkred;}
 #d-easy {background-color: rgb(100, 255, 120)}
 #d-normal {background-color:rgb(255, 255, 120)}
 #d-hard {background-color:rgb(255, 120, 100)}
+#button-2, #button-4 {float: right;}
+#key-yellow {color: rgb(255, 255, 120)}
+#key-blue {color: rgb(100, 120, 255)}
