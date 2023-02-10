@@ -69,6 +69,7 @@ button:disabled {
     border: 0;
     width: 10vw;
     height: 10vw;
+    font-size: 2vw;
 }
 
 .dead {color: rgb(255, 120, 100);}

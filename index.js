@@ -4,7 +4,7 @@ let enemyHp = 160;
 let playerMaxHp = 100;
 let enemyMaxHp = 160;
 let playerExtraDmg = 1;
-let enemyExtraDmg = 1.1;
+let enemyExtraDmg = 1.05;
 let moveNames = [];
 let selectableMoves = [];
 let movePool = [];
@@ -121,7 +121,7 @@ function evalUse(name, user) {
 }
 
 class Move {
-    constructor(name, dmg, target, effect, heal, codeName) {
+    constructor(name, dmg, target, effect, heal, codeName, specialMsg) {
         this.name = name;
         this.dmg = dmg;
         if (target != "$D") {
@@ -140,6 +140,7 @@ class Move {
         this.addFunction = `${codeName}.addToMoves()`
         this.useFunction = `${codeName}.useMove("player")`
         $("#moveSelector").append(`<button class="move" id="add-${codeName}" onclick="${this.addFunction}">${name}</button>`)
+        this.specialMsg = specialMsg;
     }
     
     addToMoves() {
@@ -163,14 +164,19 @@ class Move {
                 enemyHp -= pDamageDealt;
                 playerHp += this.heal * playerExtraDmg;
                 playerHp = Math.min(playerHp, playerMaxHp);
+                enemyHp = Math.min(enemyHp, enemyMaxHp)
                 if (this.target === "user") {
                     playerExtraDmg += this.effect;
                 } else if (this.target === "enemy") {
                     enemyExtraDmg += this.effect;
                 }
 
-                if (this.dmg != 0 && this.heal >= 0) {
-                    display(`You used ${this.name}!`, `It dealt ${Math.round(pDamageDealt)} damage.`)
+                if (this.dmg > 0 && this.heal >= 0) {
+                    if (this.target != "attack" || this.heal > 0) {
+                        display(`You used ${this.name}!`, `It dealt ${Math.round(pDamageDealt)} damage and some other stuff.`)
+                    } else {
+                        display(`You used ${this.name}!`, `It dealt ${Math.round(pDamageDealt)} damage.`)
+                    }
                 } else if (this.target === "user") {
                     display(`You used ${this.name}!`, `Your attack increased by ${this.effect * 100}%.`)
                 } else if (this.target === "enemy") {
@@ -180,6 +186,17 @@ class Move {
                 } else if (this.heal < 0) {
                     display(`You use ${this.name}!`,  `It dealt ${Math.round(pDamageDealt)} damage with ${Math.round(this.heal * playerExtraDmg * -1)} recoil.`)
                 }
+
+                if (this.specialMsg) {
+                    console.log("sure")
+                    switch (this.codeName) {
+                        case "beast":
+                            console.log("perhaps")
+                            display("MRBEASTTTT", "You healed both yourself and your enemy.");
+                            break;
+                    }
+                }
+
                 toggleButtons();
                 setTimeout(loop2, 1500)
                 break;
@@ -191,13 +208,18 @@ class Move {
                 playerHp -= eDamageDealt;
                 enemyHp += this.heal * enemyExtraDmg;
                 enemyHp = Math.min(enemyHp, enemyMaxHp);
+                playerHp = Math.min(playerHp, playerMaxHp);
                 if (this.target === "user") {
                     enemyExtraDmg += this.effect;
                 } else if (this.target === "enemy") {
                     playerExtraDmg += this.effect;
                 }
-                if (this.dmg != 0 && this.heal >= 0) {
-                    display(`The opponent used ${this.name}!`, `It dealt ${Math.round(eDamageDealt)} damage.`)
+                if (this.dmg > 0 && this.heal >= 0) {
+                    if (this.target != "attack" || this.heal > 0) {
+                        display(`The opponent used ${this.name}!`, `It dealt ${Math.round(eDamageDealt)} damage and some other stuff.`)   
+                    } else {
+                        display(`The opponent used ${this.name}!`, `It dealt ${Math.round(eDamageDealt)} damage.`)
+                    }
                 } else if (this.target === "user") {
                     display(`The opponent used ${this.name}!`, `The opponent's attack increased by ${this.effect * 100}%.`)
                 } else if (this.target === "enemy") {
@@ -208,6 +230,14 @@ class Move {
                     display(`The opponent used ${this.name}!`,  `It dealt ${Math.round(eDamageDealt)} damage with ${Math.round(this.heal * enemyExtraDmg * -1)} recoil.`)
                 }
 
+                if (this.specialMsg) {
+                    switch (this.codeName) {
+                        case "beast":
+                            display("MRBEASTTTT", "Both the enemy and you were healed.");
+                            break;
+                    }
+                }
+
                 break;
         }
     roundAndUpdate()
@@ -216,12 +246,15 @@ class Move {
 }
 
 // let name = new Move("name", dmg, effectTarget, effectPower, heal, "codename")
-let bonk = new Move("Bonk", 40, "$D", 0, 0, "bonk");
-let stronk = new Move("Stronkify", 0, "user", 0.15, 0, "stronk");
-let belittle = new Move("Belittle", 0, "enemy", -0.15, 0, "belittle");
-let tickle = new Move("Tickle", 10, "enemy", -0.1, 0, "tickle");
-let lick = new Move("Lick Wounds", 0, "$D", 0, 30, "lick");
-let hyperbonk = new Move("HYPERBONK", 50, "$D", 0, -40, "hyperbonk")
+let bonk = new Move("Bonk", 40, "attack", 0, 0, "bonk", false);
+let stronk = new Move("Stronkify", 0, "user", 0.15, 0, "stronk", false);
+let belittle = new Move("Belittle", 0, "enemy", -0.15, 0, "belittle", false);
+let tickle = new Move("Tickle", 10, "enemy", -0.1, 0, "tickle", false);
+let lick = new Move("Lick Wounds", 0, "attack", 0, 30, "lick", false);
+let hyperbonk = new Move("HYPERBONK", 50, "attack", 0, -40, "hyperbonk", false);
+let triangulate = new Move("Triangulate &#x1f913;", 15, "user", 0.05, 10, "triangulate", false);
+let munch = new Move("Gremlin Munch", 30, "attack", 0, 15, "munch", false)
+let beast = new Move("MRBEASTTTT", -20, "attack", 0, 40, "beast", true)
 // Kalob was a special child. He belittled people so they could not lick their wounds using a baseball bat to bonk them
-document.addEventListener("keydown", debug)
+document.addEventListener("keydown", debug);
 setupAi()

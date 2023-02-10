@@ -12,12 +12,12 @@ All versions before 0.1.1.1 were created before this document
 #### 0.1.3
 - move selector
 - healing & recoil moves
+#### 0.1.3.1
+- more moves
+- special displays
 #### 0.1.3.2
-- lots more moves
-- internal display rework
 - color coded buttons
-
-I only consider this minor due to not much change to the actual code, 0.1.3.1 skipped for same reason
+- easier custom difficulties
 #### 0.1.3.3
 - easier custom difficulties
 #### 0.1.4
