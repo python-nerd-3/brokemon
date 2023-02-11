@@ -1,0 +1,76 @@
+{
+    "extension": "linecounter",
+    "version": "0.2.7",
+    "workspace": "c:\\Users\\og19\\OneDrive\\Desktop\\JavaScript\\brokemon\\brokemon",
+    "linecount": [
+        {
+            "version": "0.2.7",
+            "counttime": "2023-02-10 18:58:05",
+            "filesum": 6,
+            "codesum": 391,
+            "commentsum": 3,
+            "blanksum": 46,
+            "statistics": {
+                ".css": {
+                    "code": 80,
+                    "comment": 0,
+                    "blank": 18
+                },
+                ".js": {
+                    "code": 226,
+                    "comment": 2,
+                    "blank": 24
+                },
+                ".md": {
+                    "code": 17,
+                    "comment": 0,
+                    "blank": 4
+                },
+                ".html": {
+                    "code": 68,
+                    "comment": 1,
+                    "blank": 0
+                }
+            },
+            "filelist": [
+                {
+                    "blank": 0,
+                    "code": 68,
+                    "comment": 1,
+                    "filename": "index.html"
+                },
+                {
+                    "blank": 24,
+                    "code": 226,
+                    "comment": 2,
+                    "filename": "index.js"
+                },
+                {
+                    "filename": "pekachu.ico",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 3,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "README.md"
+                },
+                {
+                    "blank": 1,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "ROADMAP.md"
+                },
+                {
+                    "blank": 18,
+                    "code": 80,
+                    "comment": 0,
+                    "filename": "styles.css"
+                }
+            ]
+        }
+    ]
+}

@@ -224,9 +224,11 @@ class Move {
                     console.log("sure")
                     switch (this.codeName) {
                         case "beast":
-                            console.log("perhaps")
                             display("MRBEASTTTT", "You healed both yourself and your enemy.");
                             break;
+                        case "saiyan":
+                            display("SUPER SAIYAN!!!", "*insert japanese here*")
+                        break;  
                     }
                 }
 
@@ -270,6 +272,9 @@ class Move {
                         case "beast":
                             display("MRBEASTTTT", "Both the enemy and you were healed.");
                             break;
+                        case "saiyan":
+                            display("ENEMY GO SUPER SAIYAN!!!", "*insert japanese here*")
+                            break;
                     }
                 }
 
@@ -290,6 +295,7 @@ let hyperbonk = new Move("HYPERBONK", 50, "attack", 0, -40, "hyperbonk", false);
 let triangulate = new Move("Triangulate &#x1f913;", 15, "user", 0.05, 10, "triangulate", false);
 let munch = new Move("Gremlin Munch", 30, "attack", 0, 15, "munch", false)
 let beast = new Move("MRBEASTTTT", -20, "attack", 0, 40, "beast", true)
+let saiyan = new Move("Super Saiyan", 0, "user", 0.3, -30, "saiyan", true)
 // Kalob was a special child. He belittled people so they could not lick their wounds using a baseball bat to bonk them
 document.addEventListener("keydown", debug);
 setupAi()
