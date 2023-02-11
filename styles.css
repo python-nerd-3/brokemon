@@ -24,7 +24,7 @@ body {
 
 button.move {
     border: 0.5vw solid;
-    width: 47vw;
+    width: 50%;
     height: 100px;
 }
 
