@@ -3,8 +3,6 @@ Pokemon on an extreme budget.
 
 I made this bc my fren told me to when I had zero ideas for projects to make
 
-PS enemy has a slight attack boost to make it harder
+Feel free to fork this and do whatever the heck you want with
 
-this took over 200 lines of code and has been my biggest project yet pls help me
-- update 1: 265
-- update 2: 350
+**440** lines of code
