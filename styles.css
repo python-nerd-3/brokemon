@@ -72,9 +72,14 @@ button:disabled {
     font-size: 2vw;
 }
 
+.move-select {
+    width: 15vw;
+    height: 15vw;
+    margin: 0.5vw;
+}
+
 textarea {
     border-radius: 10px;
-    resize: none;
 }
 
 #difficulty-builder {
@@ -95,4 +100,4 @@ textarea {
 #d-hard {background-color:rgb(255, 120, 100)}
 #button-2, #button-4 {float: right;}
 #key-yellow {color: rgb(255, 255, 120)}
-#key-blue {color: rgb(100, 120, 255)}
+#key-blue, .defense {color: rgb(100, 120, 255)}

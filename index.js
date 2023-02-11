@@ -4,7 +4,9 @@ let enemyHp = 160;
 let playerMaxHp = 100;
 let enemyMaxHp = 160;
 let playerExtraDmg = 1;
+let playerDef = 0;
 let enemyExtraDmg = 1.05;
+let enemyDef = 0;
 let moveNames = [];
 let selectableMoves = [];
 let movePool = [];
@@ -94,6 +96,8 @@ function roundAndUpdate() {
     } else if (enemyExtraDmg >= 1) {
         $("#enemyBoost").switchClass("nerf", "boost", 1000, "easeInOutQuad");
     }
+    $("#player-defense").html(playerDef);
+    $("#enemy-defense").html(enemyDef);
 }
 
 function display(top, bottom) {
@@ -143,25 +147,23 @@ function evalUse(name, user) {
 }
 
 class Move {
-    constructor(name, dmg, target, effect, heal, codeName, specialMsg) {
+    constructor(name, dmg, target, effect, effectType, heal, codeName, specialMsg) {
         this.name = name;
         this.dmg = dmg;
-        if (target != "$D") {
+        if (target != "attack") {
             this.target = target;
             this.effect = effect;
+        } else {
+            this.target = "attack";
         }
         this.heal = heal;
-        if (heal >= 0) {
-            this.healType = "heal";
-        } else {
-            this.healType = "recoil";
-        };
+        this.effectType = effectType;
         this.codeName = codeName;
         moveNames.push(codeName);
         selectableMoves = [...moveNames];
         this.addFunction = `${codeName}.addToMoves()`;
         this.useFunction = `${codeName}.useMove("player")`;
-        $("#key").before(`<button class="move" id="add-${codeName}" onclick="${this.addFunction}">${name}</button>`);
+        $("#key").before(`<button class="move-select" id="add-${codeName}" onclick="${this.addFunction}">${name}</button>`);
         if (dmg > 0 && target === "attack") {
             $(`#add-${codeName}`).addClass("damageMove");
         } else if (dmg > 0) {
@@ -192,16 +194,27 @@ class Move {
                 let randomDamageBoost = Math.random() / 5
                 randomDamageBoost += 0.9
                 pDamageDealt *= randomDamageBoost
+                pDamageDealt -= enemyDef
+                pDamageDealt = Math.max(pDamageDealt, (pDamageDealt + enemyDef) / 2)
                 enemyHp -= pDamageDealt;
                 playerHp += this.heal * playerExtraDmg;
+                console.log(this.codeName)
                 playerHp = Math.min(playerHp, playerMaxHp);
                 enemyHp = Math.min(enemyHp, enemyMaxHp)
                 if (this.target === "user") {
-                    playerExtraDmg += this.effect;
-                    playerExtraDmg = Math.max(playerExtraDmg, 0.5);
+                    if (this.effectType === 1) {
+                        playerExtraDmg += this.effect;
+                        playerExtraDmg = Math.max(playerExtraDmg, 0.5);
+                    } else if (this.effectType === 2) {
+                        playerDef += this.effect;
+                    }
                 } else if (this.target === "enemy") {
-                    enemyExtraDmg += this.effect;
-                    enemyExtraDmg = Math.max(enemyExtraDmg, 0.5);
+                    if (this.effectType === 1) {
+                        enemyExtraDmg += this.effect;
+                        enemyExtraDmg = Math.max(enemyExtraDmg, 0.5);
+                    } else if (this.effectType === 2) {
+                        enemyDef += this.effect;
+                    }
                 }
 
                 if (this.dmg > 0 && this.heal >= 0) {
@@ -211,9 +224,17 @@ class Move {
                         display(`You used ${this.name}!`, `It dealt ${Math.round(pDamageDealt)} damage.`)
                     }
                 } else if (this.target === "user") {
-                    display(`You used ${this.name}!`, `Your attack increased by ${this.effect * 100}%.`)
+                    if (this.effectType === 1) {
+                        display(`You used ${this.name}!`, `Your attack increased by ${this.effect * 100}%.`)
+                    } else {
+                        display(`You used ${this.name}!`, `Your defense increased by ${this.effect}.`)
+                    }
                 } else if (this.target === "enemy") {
-                    display(`You used ${this.name}!`, `The opponent's attack decreased by ${this.effect * -100}%.`)
+                    if (this.effectType === 1) {
+                        display(`You used ${this.name}!`, `The opponent's attack decreased by ${this.effect * -100}%.`)
+                    } else {
+                        display(`You used ${this.name}!`, `The opponent's defense decreased by ${this.effect * -1}.`)
+                    }
                 } else if (this.heal > 0) {
                     display(`You used ${this.name}!`, `It brought your HP back up to ${Math.round(playerHp)}.`)
                 } else if (this.heal < 0) {
@@ -240,16 +261,26 @@ class Move {
                 let eRandomDamageBoost = Math.random() / 5
                 eRandomDamageBoost  += 0.9
                 eDamageDealt *= eRandomDamageBoost
+                eDamageDealt -= playerDef;
+                eDamageDealt = Math.max(eDamageDealt, (eDamageDealt + playerDef) / 2)
                 playerHp -= eDamageDealt;
                 enemyHp += this.heal * enemyExtraDmg;
                 enemyHp = Math.min(enemyHp, enemyMaxHp);
                 playerHp = Math.min(playerHp, playerMaxHp);
                 if (this.target === "user") {
-                    enemyExtraDmg += this.effect;
-                    enemyExtraDmg = Math.max(enemyExtraDmg, 0.5);
+                    if (this.effectType === 1) {
+                        enemyExtraDmg += this.effect;
+                        enemyExtraDmg = Math.max(enemyExtraDmg, 0.5);
+                    } else if (this.effectType === 2) {
+                        enemyDef += this.effect;
+                    }
                 } else if (this.target === "enemy") {
-                    playerExtraDmg += this.effect;
-                    playerExtraDmg = Math.max(playerExtraDmg, 0.5);
+                    if (this.effectType === 1) {
+                        playerExtraDmg += this.effect;
+                        playerExtraDmg = Math.max(playerExtraDmg, 0.5);
+                    } else if (this.effectType === 2) {
+                        playerDef += this.effect;
+                    }
                 }
                 if (this.dmg > 0 && this.heal >= 0) {
                     if (this.target != "attack" || this.heal > 0) {
@@ -258,9 +289,17 @@ class Move {
                         display(`The opponent used ${this.name}!`, `It dealt ${Math.round(eDamageDealt)} damage.`)
                     }
                 } else if (this.target === "user") {
-                    display(`The opponent used ${this.name}!`, `The opponent's attack increased by ${this.effect * 100}%.`)
+                    if (this.effectType === 1) {
+                        display(`The opponent used ${this.name}!`, `The opponent's attack increased by ${this.effect * 100}%.`)
+                    } else {
+                        display(`The opponent used ${this.name}!`, `The opponent's defense increased by ${this.effect * 1}.`)
+                    }
                 } else if (this.target === "enemy") {
-                    display(`The opponent used used ${this.name}!`, `Your  attack decreased by ${this.effect * -100}%.`)
+                    if (this.effectType === 1) {
+                        display(`The opponent used ${this.name}!`, `Your attack decreased by ${this.effect * -100}%.`)
+                    } else {
+                        display(`The opponent used ${this.name}!`, `Your defense decreased by ${this.effect * -1}.`)
+                    }
                 } else if (this.heal > 0) {
                     display(`The opponent used ${this.name}!`, `It brought its HP back up to ${Math.round(enemyHp)}.`)
                 } else if (this.heal < 0) {
@@ -285,17 +324,20 @@ class Move {
 
 }
 
-// let name = new Move("name", dmg, effectTarget, effectPower, heal, "codename")
-let bonk = new Move("Bonk", 40, "attack", 0, 0, "bonk", false);
-let stronk = new Move("Stronkify", 0, "user", 0.15, 0, "stronk", false);
-let belittle = new Move("Belittle", 0, "enemy", -0.15, 0, "belittle", false);
-let tickle = new Move("Tickle", 10, "enemy", -0.1, 0, "tickle", false);
-let lick = new Move("Lick Wounds", 0, "attack", 0, 30, "lick", false);
-let hyperbonk = new Move("HYPERBONK", 50, "attack", 0, -40, "hyperbonk", false);
-let triangulate = new Move("Triangulate &#x1f913;", 15, "user", 0.05, 10, "triangulate", false);
-let munch = new Move("Gremlin Munch", 30, "attack", 0, 15, "munch", false)
-let beast = new Move("MRBEASTTTT", -20, "attack", 0, 40, "beast", true)
-let saiyan = new Move("Super Saiyan", 0, "user", 0.3, -30, "saiyan", true)
+// let name = new Move("name", dmg, "effectTarget", effectPower, effectType, heal, "codename", hasSpeicalDisplay)
+let bonk = new Move("Bonk", 40, "attack", 0, 0, 0, "bonk", false);
+let stronk = new Move("Stronkify", 0, "user", 0.15, 1, 0, "stronk", false);
+let belittle = new Move("Belittle", 0, "enemy", -0.15, 1, 0, "belittle", false);
+let tickle = new Move("Tickle", 10, "enemy", -0.1, 1, 0, "tickle", false);
+let lick = new Move("Lick Wounds", 0, "attack", 0, 0, 30, "lick", false);
+let hyperbonk = new Move("HYPERBONK", 50, "attack", 0, 0, -40, "hyperbonk", false);
+let triangulate = new Move("Triangulate &#x1f913;", 15, "user", 0.05, 1, 10, "triangulate", false);
+let munch = new Move("Gremlin Munch", 30, "attack", 0, 0, 15, "munch", false)
+let beast = new Move("MRBEASTTTT", -20, "attack", 0, 0, 40, "beast", true)
+let saiyan = new Move("Super Saiyan", 0, "user", 0.3, 1, -30, "saiyan", true)
+let rock = new Move("El Rock", 0, "user", 5, 2, 0, "rock", false)
+let pickaxe = new Move("Diamond Pickaxe", 0, "enemy", -5, 2, 0, "pickaxe", false)
+let l = new Move("L", 25, "enemy", -0.05, 1, 0, "l", false)
 // Kalob was a special child. He belittled people so they could not lick their wounds using a baseball bat to bonk them
 document.addEventListener("keydown", debug);
 setupAi()
