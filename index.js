@@ -336,12 +336,12 @@ let tickle = new Move("Tickle", 10, "enemy", -0.1, 1, 0, "tickle", false);
 let lick = new Move("Lick Wounds", 0, "attack", 0, 0, 30, "lick", false);
 let hyperbonk = new Move("HYPERBONK", 50, "attack", 0, 0, -40, "hyperbonk", false);
 let triangulate = new Move("Triangulate &#x1f913;", 15, "user", 0.05, 1, 10, "triangulate", false);
-let munch = new Move("Gremlin Munch", 30, "attack", 0, 0, 15, "munch", false)
-let beast = new Move("MRBEASTTTT", -20, "attack", 0, 0, 40, "beast", true)
-let saiyan = new Move("Super Saiyan", 0, "user", 0.3, 1, -30, "saiyan", true)
-let rock = new Move("El Rock", 0, "user", 5, 2, 0, "rock", false)
-let pickaxe = new Move("Diamond Pickaxe", 0, "enemy", -5, 2, 0, "pickaxe", false)
-let l = new Move("L", 25, "enemy", -0.05, 1, 0, "l", false)
+let munch = new Move("Gremlin Munch", 30, "attack", 0, 0, 15, "munch", false);
+let beast = new Move("MRBEASTTTT", -20, "attack", 0, 0, 40, "beast", true);
+let saiyan = new Move("Super Saiyan", 0, "user", 0.3, 1, -30, "saiyan", true);
+let rock = new Move("El Rock", 0, "user", 5, 2, 0, "rock", false);
+let pickaxe = new Move("Diamond Pickaxe", 0, "enemy", -4, 2, 0, "pickaxe", false);
+let l = new Move("L", 25, "enemy", -0.05, 1, 0, "l", false);
 // Kalob was a special child. He belittled people so they could not lick their wounds using a baseball bat to bonk them
 document.addEventListener("keydown", debug);
 setupAi()
