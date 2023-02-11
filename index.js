@@ -46,6 +46,8 @@ $('#button-4').prop("disabled", true);
 function setDifficulty() {
     let diffBoost = $("#enemy-boost-input").val();
     let diffHp = $("#enemy-hp-input").val();
+    diffBoost = Math.max(0, Math.min(100000, Math.round(diffBoost)))
+    diffHp = Math.max(1, Math.min(10000000, Math.round(diffHp)))
     console.log(diffBoost + diffHp)
     window.location.replace(`index.html?hp=${diffHp}&boost=${diffBoost}`)
 }
@@ -194,8 +196,10 @@ class Move {
                 let randomDamageBoost = Math.random() / 5
                 randomDamageBoost += 0.9
                 pDamageDealt *= randomDamageBoost
-                pDamageDealt -= enemyDef
-                pDamageDealt = Math.max(pDamageDealt, (pDamageDealt + enemyDef) / 2)
+                if (this.dmg > 0) {
+                    pDamageDealt -= enemyDef
+                    pDamageDealt = Math.max(pDamageDealt, (pDamageDealt + enemyDef) / 2)
+                }
                 enemyHp -= pDamageDealt;
                 playerHp += this.heal * playerExtraDmg;
                 console.log(this.codeName)
@@ -249,7 +253,7 @@ class Move {
                             break;
                         case "saiyan":
                             display("SUPER SAIYAN!!!", "*insert japanese here*")
-                        break;  
+                            break;  
                     }
                 }
 
@@ -261,8 +265,8 @@ class Move {
                 let eRandomDamageBoost = Math.random() / 5
                 eRandomDamageBoost  += 0.9
                 eDamageDealt *= eRandomDamageBoost
-                eDamageDealt -= playerDef;
-                eDamageDealt = Math.max(eDamageDealt, (eDamageDealt + playerDef) / 2)
+                    eDamageDealt -= playerDef;
+                    eDamageDealt = Math.max(eDamageDealt, (eDamageDealt + playerDef) / 2)
                 playerHp -= eDamageDealt;
                 enemyHp += this.heal * enemyExtraDmg;
                 enemyHp = Math.min(enemyHp, enemyMaxHp);
