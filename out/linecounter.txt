@@ -3,7 +3,6 @@ EXTENSION NAME : linecounter
 EXTENSION VERSION : 0.2.7
 -------------------------------------------------------------------------------
 count time : 2023-02-10 18:58:05
-count workspace : c:\Users\og19\OneDrive\Desktop\JavaScript\brokemon\brokemon
 total files : 6
 total code lines : 391
 total comment lines : 3
