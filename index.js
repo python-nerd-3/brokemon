@@ -11,6 +11,9 @@ let moveNames = [];
 let selectableMoves = [];
 let movePool = [];
 let movesChosen = 1;
+let click = new Audio("click.mp3")
+let music = new Audio("Brokemon.wav")
+let musicPlaying = false;
 let isFirefox = navigator.userAgent.match(/firefox|fxios/i)
 let isSafari = navigator.userAgent.match(/safari/i);
 
@@ -43,12 +46,21 @@ $('#button-2').prop("disabled", true);
 $('#button-3').prop("disabled", true);
 $('#button-4').prop("disabled", true);
 
+function toggleMusic() {
+    if (musicPlaying) {
+        if (music.paused) {
+            music.play()
+        } else {
+            music.pause()
+        }
+    }
+}
+
 function setDifficulty() {
     let diffBoost = $("#enemy-boost-input").val();
     let diffHp = $("#enemy-hp-input").val();
     diffBoost = Math.max(0, Math.min(100000, Math.round(diffBoost)))
     diffHp = Math.max(1, Math.min(10000000, Math.round(diffHp)))
-    console.log(diffBoost + diffHp)
     window.location.replace(`index.html?hp=${diffHp}&boost=${diffBoost}`)
 }
 
@@ -179,12 +191,16 @@ class Move {
     }
     
     addToMoves() {
+        click.play();
         $(`#button-${movesChosen}`).html(this.name);
         $(`#button-${movesChosen}`).attr("onclick", `${this.useFunction}`)
         movesChosen += 1;
         $(`#add-${this.codeName}`).remove();
         if (movesChosen === 5) {
             $("#moveSelector").remove();
+            music.play()
+            music.loop = true;
+            musicPlaying = true;
             loop1();
         }
     }
@@ -192,11 +208,13 @@ class Move {
     useMove(user) {
         switch (user) {
             case "player":
+                click.play();
                 let pDamageDealt = this.dmg * playerExtraDmg;
                 let randomDamageBoost = Math.random() / 5
                 randomDamageBoost += 0.9
                 pDamageDealt *= randomDamageBoost
                 if (this.dmg > 0) {
+                    console.log("indeedee")
                     pDamageDealt -= enemyDef
                     pDamageDealt = Math.max(pDamageDealt, (pDamageDealt + enemyDef) / 2)
                 }
@@ -265,8 +283,10 @@ class Move {
                 let eRandomDamageBoost = Math.random() / 5
                 eRandomDamageBoost  += 0.9
                 eDamageDealt *= eRandomDamageBoost
+                if (this.dmg > 0) {
                     eDamageDealt -= playerDef;
-                    eDamageDealt = Math.max(eDamageDealt, (eDamageDealt + playerDef) / 2)
+                    eDamageDealt = Math.max(eDamageDealt, (eDamageDealt + playerDef) / 2);
+                };
                 playerHp -= eDamageDealt;
                 enemyHp += this.heal * enemyExtraDmg;
                 enemyHp = Math.min(enemyHp, enemyMaxHp);

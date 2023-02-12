@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <head>
+    <script src="https://kit.fontawesome.com/19a43ba50e.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
@@ -9,6 +10,7 @@
     <title>Brokemon Beta 01.4.0</title>
 </head>
 <body>
+    <button id="mute-btn" onclick="toggleMusic()" style="color: white;"><i class="fa-solid fa-volume-high fa-3x"></i></button>
     <h1>Brokemon</h1>
     <h2>Your HP: <span id="player-hp">100</span> <span id="playerBoost" class="boost">x1</span></h2>
     <h3>Defense: <span class="defense" id="player-defense">0</span></h3>
@@ -17,7 +19,7 @@
     <div id="info">
         <span id="top-bar">| Select your moves.</span>
         <br>
-        <span id="bottom-bar">|</span>
+        <span id="bottom-bar">| WARNING: Music will start playing once you select all 4</span>
     </div>
     <div id="actions">
         <button class="move" id="button-1" disabled="true"></button>

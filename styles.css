@@ -78,8 +78,22 @@ button:disabled {
     margin: 0.5vw;
 }
 
+#mute-btn {
+    width: 60px;
+    height: 60px;
+    float: right;
+    border: 0;
+    background-color:rgb(10, 10, 25);
+}
+
+.fa-solid {
+    text-align: center;
+    opacity: 1;
+}
+
 textarea {
     border-radius: 10px;
+    resize: none;
 }
 
 #difficulty-builder {
