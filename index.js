@@ -14,14 +14,6 @@ let movesChosen = 1;
 let click = new Audio("click.mp3")
 let music = new Audio("Brokemon.wav")
 let musicPlaying = false;
-let isFirefox = navigator.userAgent.match(/firefox|fxios/i)
-let isSafari = navigator.userAgent.match(/safari/i);
-
-if (isFirefox || isSafari) {
-    console.log("goob job")
-} else {
-    alert("Please use Firefox or Safari or else the buttons do the funny.")
-}
     
 console.log("yo hi snooper if somethings red tell me ok? also run playerHp = -2")
 
